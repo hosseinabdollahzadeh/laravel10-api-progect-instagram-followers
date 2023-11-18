@@ -12,6 +12,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const BONUS_COINS_PER_FOLLOWING = 2;
+    const COINS_PAID_PER_FOLLOWER = 4;
     protected $fillable = [
         'username',
     ];

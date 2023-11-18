@@ -2,11 +2,19 @@
 
 namespace App\Exceptions;
 
+use App\Traits\ApiResponser;
+use Error;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use ApiResponser;
     /**
      * A list of the exception types that are not reported.
      *
@@ -37,5 +45,40 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($e instanceof ModelNotFoundException) {
+            DB::rollBack();
+            return $this->errorResponse($e->getMessage(), 404);
+        }
+
+        if ($e instanceof NotFoundHttpException) {
+            DB::rollBack();
+            return $this->errorResponse($e->getMessage(), 404);
+        }
+
+        if ($e instanceof MethodNotAllowedHttpException) {
+            DB::rollBack();
+            return $this->errorResponse($e->getMessage(), 500);
+        }
+
+        if ($e instanceof Exception) {
+            DB::rollBack();
+            return $this->errorResponse($e->getMessage(), 500);
+        }
+
+        if ($e instanceof Error) {
+            DB::rollBack();
+            return $this->errorResponse($e->getMessage(), 500);
+        }
+
+        DB::rollBack();
+        if (config('app.debug')) {
+            return parent::render($request, $e);
+        }
+
+        return $this->errorResponse($e->getMessage(), 500);
     }
 }
