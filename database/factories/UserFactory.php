@@ -16,7 +16,8 @@ class UserFactory extends Factory
     {
         return [
             'username' => $this->faker->userName(),
-            'token' => Str::random(32),
+            'access_token' => Str::random(32),
+            'coin_balance' => 50,
         ];
     }
 }

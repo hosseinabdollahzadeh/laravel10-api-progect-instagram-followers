@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('username');
-            $table->string('token'); // Assuming the token is a string
+            $table->string('access_token'); // Assuming the token is a string
             $table->integer('coin_balance')->default(0); // Assuming a field to store the user's coin balance
             $table->timestamps();
         });
