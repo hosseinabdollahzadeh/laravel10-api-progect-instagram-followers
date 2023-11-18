@@ -10,6 +10,24 @@ use Services\UserService;
 
 class OrderController extends ApiController
 {
+    /**
+     * @OA\Post(
+     *     path="/api/v1/orders/follower-request",
+     *     summary="Request followers",
+     *     tags={"Orders"},
+     *     security={{"bearer_token": {}}},
+     *     @OA\Parameter(
+     *           name="follower_count",
+     *           in="query",
+     *           description="Follower Count",
+     *           required=true,
+     *           @OA\Schema(type="integer", default=10)
+     *       ),
+     *     @OA\Response(response="201", description="Followers ordered successfully"),
+     *     @OA\Response(response="422", description="Your balance is low for this request!"),
+     *     @OA\Response(response="401", description="Unauthenticated")
+     * )
+     */
     public function followerRequest(Request $request)
     {
         // Validate input

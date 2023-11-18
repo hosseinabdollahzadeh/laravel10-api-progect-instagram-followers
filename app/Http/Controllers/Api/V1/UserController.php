@@ -22,6 +22,30 @@ use Services\UserService;
  */
 class UserController extends ApiController
 {
+    /**
+     * @OA\Get(
+     *     path="/api/v1/users/followable-list",
+     *     summary="Get followable users list",
+     *     tags={"Users"},
+     *     security={{"bearer_token": {}}},
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Page number",
+     *         required=false,
+     *         @OA\Schema(type="integer", default=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="per_page",
+     *         in="query",
+     *         description="Number of items per page",
+     *         required=false,
+     *         @OA\Schema(type="integer", default=10)
+     *     ),
+     *     @OA\Response(response="200", description="Success"),
+     *     @OA\Response(response="401", description="Unauthenticated")
+     * )
+     */
     public function followableList(Request $request)
     {
         // Validate input
@@ -57,6 +81,25 @@ class UserController extends ApiController
         ], null, 200);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/v1/users/follow-user",
+     *     summary="Follow a user",
+     *     tags={"Users"},
+     *     security={{"bearer_token": {}}},
+     *     @OA\Parameter(
+     *          name="followable_id",
+     *          in="query",
+     *          description="Followable Id",
+     *          required=true,
+     *          @OA\Schema(type="integer", default=1)
+     *      ),
+     *     @OA\Response(response="200", description="TYou are following successfully."),
+     *     @OA\Response(response="400", description="Invalid followable user"),
+     *     @OA\Response(response="500", description="Internal server error"),
+     *     @OA\Response(response="401", description="Unauthenticated")
+     * )
+     */
     public function followUser(Request $request)
     {
         // Get authenticated user

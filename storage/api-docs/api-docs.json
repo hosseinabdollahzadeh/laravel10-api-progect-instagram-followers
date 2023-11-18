@@ -1,0 +1,151 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel10 api project instagram followers",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "abdollahzadeh.hossein@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/orders/follower-request": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Request followers",
+                "operationId": "977db6e8a04d5fe9a3f8404ed5b6c8e2",
+                "parameters": [
+                    {
+                        "name": "follower_count",
+                        "in": "query",
+                        "description": "Follower Count",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Followers ordered successfully"
+                    },
+                    "422": {
+                        "description": "Your balance is low for this request!"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/followable-list": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get followable users list",
+                "operationId": "5c66302ac1f3a0a01f611986cce94fcf",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/follow-user": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Follow a user",
+                "operationId": "9b14a814225a1316f2bc9f7b59e853b5",
+                "parameters": [
+                    {
+                        "name": "followable_id",
+                        "in": "query",
+                        "description": "Followable Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "TYou are following successfully."
+                    },
+                    "400": {
+                        "description": "Invalid followable user"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearer_token": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearer_token": []
+        }
+    ]
+}

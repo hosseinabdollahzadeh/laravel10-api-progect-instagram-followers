@@ -6,10 +6,49 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
+/**
+ * @OA\Schema(
+ *     schema="User",
+ *     required={"id", "username"},
+ *     @OA\Property(property="id", type="integer", example=1),
+ *     @OA\Property(property="username", type="string", example="john_doe")
+ * )
+ */
 class UserRepo
 {
-    public function getUser($id)
+    /**
+     * Get user details
+     *
+     * @OA\Get(
+     *     path="/api/v1/user/{id}",
+     *     tags={"User"},
+     *     summary="Get user details",
+     *     description="Retrieve details of a user by ID",
+     *     operationId="getUser",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="User ID",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Details of a user",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="user",
+     *                 ref="#/components/schemas/User"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found"
+     *     )
+     * )
+     */
+    public static function getUser($id)
     {
         return User::query()->findOrFail($id);
     }
